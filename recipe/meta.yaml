@@ -5,26 +5,28 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/l/logical-unification/logical-unification-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/l/logical-unification/logical-unification-{{ version }}.tar.gz
   sha256: 908435123f8a106fa4dcf9bf1b75c7beb309fa2bbecf277868af8f1c212650a0
   patches:
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
     - setuptools
   run:
-    - python >=3.6
+    - python >={{ python_min }}
     - toolz
     - multipledispatch
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - unification
 
