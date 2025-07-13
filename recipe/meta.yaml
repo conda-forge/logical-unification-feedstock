@@ -29,6 +29,9 @@ test:
     - python {{ python_min }}
   imports:
     - unification
+  commands:
+    - python -c "from importlib.metadata import version; print(version('unification'))"
+    - python -c "from importlib.metadata import version; print(version('unification'))" | grep {{ version }}
 
 about:
   home: https://github.com/pythological/unification
