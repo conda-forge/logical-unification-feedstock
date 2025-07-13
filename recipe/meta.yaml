@@ -1,42 +1,43 @@
+{% set name = "logical-unification" %}
 {% set version = "0.4.6" %}
 
 package:
-  name: logical-unification
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/l/logical-unification/logical-unification-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/logical-unification-{{ version }}.tar.gz
   sha256: 908435123f8a106fa4dcf9bf1b75c7beb309fa2bbecf277868af8f1c212650a0
-  patches:
 
 build:
-  number: 2
-  script: {{ PYTHON }} -m pip install . -vv
   noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 2
 
 requirements:
   host:
-    - pip
     - python {{ python_min }}
-    - setuptools
+    - pip
   run:
     - python >={{ python_min }}
     - toolz
     - multipledispatch
 
 test:
-  requires:
-    - python {{ python_min }}
   imports:
     - unification
   commands:
-    - python -c "from importlib.metadata import version; print(version('unification'))"
-    - python -c "from importlib.metadata import version; print(version('unification'))" | grep {{ version }}
+    - pip check
+    - python -c "from importlib.metadata import version; print(version('{{ name }}'))"
+    - python -c "from importlib.metadata import version; print(version('{{ name }}'))" | grep {{ version }}
+  requires:
+    - python {{ python_min }}
+    - pip
 
 about:
-  home: https://github.com/pythological/unification
+  home: https://github.com/pythological/unification/
+  summary: Logical unification in Python
   license: BSD-3-Clause
-  summary: Logical unification in Python.
   license_file: LICENSE.txt
   dev_url: https://github.com/pythological/unification
 
